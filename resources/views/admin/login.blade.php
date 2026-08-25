@@ -88,16 +88,10 @@
         }
 
         .logo-img {
-            height: 120px;
+            height: 160px;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(184,135,15,0.25));
-            animation: floatLogo 5s ease-in-out infinite;
-        }
-
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(-6px); }
+            filter: drop-shadow(0 4px 16px rgba(184,135,15,0.30));
         }
 
         .login-card {
@@ -131,33 +125,13 @@
             border-radius: 2px;
         }
 
-        .badge-admin {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, var(--gold-100), var(--gold-200));
-            border: 1px solid rgba(212,160,23,0.3);
-            border-radius: 100px;
-            padding: 4px 14px;
-            font-size: 11px;
+        .portal-label {
+            font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--gold-600);
-            margin-bottom: 0.875rem;
-        }
-
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gold-400);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%       { opacity: 0.6; transform: scale(0.85); }
+            color: var(--gold-500);
+            margin-bottom: 0.625rem;
         }
 
         .card-title {
@@ -357,7 +331,7 @@
 
         @media (max-width: 480px) {
             .login-card { padding: 2rem 1.25rem; border-radius: 16px; }
-            .logo-img { height: 90px; }
+            .logo-img { height: 110px; }
         }
 
         @media (max-width: 360px) {
@@ -386,10 +360,7 @@
 
             {{-- Card Header --}}
             <div class="card-header">
-                <div class="badge-admin">
-                    <span class="badge-dot"></span>
-                    Admin Portal
-                </div>
+                <p class="portal-label">Admin Portal</p>
                 <h1 class="card-title">Admin Login</h1>
                 <p class="card-subtitle">Sign in to access the dashboard</p>
             </div>
