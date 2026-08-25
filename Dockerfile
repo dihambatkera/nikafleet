@@ -50,15 +50,16 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 WORKDIR /var/www
 
-# ⚠️ DEBUG – revert to production/false when stable
-ENV APP_DEBUG=true
-ENV APP_ENV=local
+ENV APP_DEBUG=false
+ENV APP_ENV=production
 ENV LOG_CHANNEL=stderr
-ENV LOG_LEVEL=debug
+ENV LOG_LEVEL=info
 # Baked-in driver – overridden by Render env vars at runtime
 ENV DB_CONNECTION=pgsql
 
 COPY . .
+
+RUN rm -f public/hot
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 

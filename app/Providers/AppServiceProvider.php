@@ -28,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS in production / behind reverse proxy (Render)
+        if (app()->environment('production') || str_starts_with(config('app.url'), 'https://') || request()->header('x-forwarded-proto') === 'https') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Register policies
         Gate::policy(Car::class, CarPolicy::class);
         Gate::policy(Rental::class, RentalPolicy::class);

@@ -13,9 +13,9 @@ services:
       - key: APP_NAME
         value: NikaFleet
       - key: APP_ENV
-        value: local          # ⚠️ DEBUG ONLY – change back to production when done
+        value: production
       - key: APP_DEBUG
-        value: true           # ⚠️ DEBUG ONLY – change back to false when done
+        value: "false"
       - key: APP_KEY
         generateValue: true   # Render auto-generates a secret
       - key: APP_URL
