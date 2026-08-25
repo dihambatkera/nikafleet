@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     zip \
     nginx \
-    default-libmysqlclient-dev \
     libzip-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -24,20 +23,19 @@ RUN apt-get update && apt-get install -y \
 # --------------------------------------------------
 
 RUN docker-php-ext-configure gd \
-    --with-freetype \
-    --with-jpeg \
-    --with-webp
-
-RUN docker-php-ext-install \
-    pdo \
-    pdo_mysql \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    gd \
-    xml \
-    zip
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        mbstring \
+        exif \
+        pcntl \
+        bcmath \
+        gd \
+        xml \
+        zip
 
 # --------------------------------------------------
 # Composer
