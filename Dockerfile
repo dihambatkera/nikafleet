@@ -1,4 +1,4 @@
-﻿FROM php:8.3-fpm
+FROM php:8.3-fpm
 
 # --------------------------------------------------
 # System dependencies
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     zip \
     nginx \
-    libpq-dev \
+    default-libmysqlclient-dev \
     libzip-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -30,7 +30,7 @@ RUN docker-php-ext-configure gd \
 
 RUN docker-php-ext-install \
     pdo \
-    pdo_pgsql \
+    pdo_mysql \
     mbstring \
     exif \
     pcntl \
