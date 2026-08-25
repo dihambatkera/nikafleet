@@ -88,10 +88,11 @@
         }
 
         .logo-img {
-            height: 160px;
+            height: 200px;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 4px 16px rgba(184,135,15,0.30));
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(184,135,15,0.25);
         }
 
         .login-card {
@@ -331,7 +332,7 @@
 
         @media (max-width: 480px) {
             .login-card { padding: 2rem 1.25rem; border-radius: 16px; }
-            .logo-img { height: 110px; }
+            .logo-img { height: 140px; }
         }
 
         @media (max-width: 360px) {
@@ -347,7 +348,7 @@
         {{-- Company Logo --}}
         <div class="logo-section">
             <img
-                src="{{ asset('logo-official-transparrent.png') }}"
+                src="{{ asset('logo.jpeg') }}"
                 alt="NikaFleet"
                 class="logo-img"
                 loading="eager"
