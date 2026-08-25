@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>NikaFleet — Sewa Kereta Rawang, Selangor</title>
+        <title>NikaFleet — Sewa Kereta</title>
         <meta name="description" content="NikaFleet - Penyedia sewa kereta premium di Rawang, Selangor. Nak sewa? Nika kan ada!">
 
         <!-- Fonts -->

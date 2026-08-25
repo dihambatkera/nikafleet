@@ -39,6 +39,10 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
         :root {
             --text-xs: 0.6875rem;
             --text-sm: 0.8125rem;
@@ -452,21 +456,54 @@
           }
         }
 
-        /* ─── BOOKING MODAL MOBILE ─── */
+        /* ─── BOOKING MODAL (CENTERED) ─── */
+        .booking-modal-overlay {
+          position: fixed;
+          inset: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(15, 23, 42, 0.7);
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.5rem;
+          overflow-y: auto;
+          box-sizing: border-box;
+        }
+        .booking-modal-panel {
+          margin: auto;
+          width: 100%;
+          max-width: 540px;
+          background: #ffffff;
+          border-radius: 6px;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+          position: relative;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-sizing: border-box;
+        }
         @media (max-width: 639px) {
           .booking-modal-panel {
-            border-radius: 0 !important;
-            max-height: 100vh !important;
-            height: 100dvh !important;
-            max-width: 100% !important;
+            border-radius: 12px 12px 0 0;
+            max-height: 92vh;
+            height: auto;
+            max-width: 100%;
+            margin-bottom: 0;
           }
           .booking-modal-overlay {
-            padding: 0 !important;
-            align-items: flex-end !important;
+            padding: 0;
+            align-items: flex-end;
           }
           /* Date/time grid stacks to 1 column on small phones */
           .datetime-grid {
-            grid-template-columns: 1fr !important;
+            grid-template-columns: 1fr;
           }
         }
 
@@ -1768,33 +1805,11 @@
       x-show="bookingModal"
       x-cloak
       class="booking-modal-overlay"
-      style="
-        position: fixed;
-        inset: 0;
-        background: rgba(75,75,75,0.55);
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
-        z-index: 200;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-      "
       @click.self="closeBooking()"
       @keydown.escape.window="closeBooking()"
     >
       <div
         class="booking-modal-panel"
-        style="
-          background: #ffffff;
-          border-radius: 4px;
-          width: 100%;
-          max-width: 540px;
-          max-height: 92vh;
-          overflow-y: auto;
-          box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-          position: relative;
-        "
         @click.stop
       >
 
@@ -2306,21 +2321,21 @@
         align-items: center;
         gap: 12px;
         padding: 12px 26px;
-        background: linear-gradient(135deg, #d4b85c 0%, #bda04e 45%, #967d2e 100%);
-        border: 2px solid #ffffff;
+        background: linear-gradient(135deg, #0d1726 0%, #080f1d 50%, #030712 100%);
+        border: 2px solid #22c55e;
         border-radius: 9999px;
-        box-shadow: 0 10px 25px -4px rgba(189, 160, 78, 0.5), 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 18px rgba(189, 160, 78, 0.3);
+        box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(34, 197, 94, 0.35), 0 0 0 1px rgba(34, 197, 94, 0.2);
         text-decoration: none;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    " onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 14px 32px -3px rgba(189, 160, 78, 0.65), 0 6px 16px rgba(0, 0, 0, 0.2), 0 0 24px rgba(189, 160, 78, 0.45)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 10px 25px -4px rgba(189, 160, 78, 0.5), 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 18px rgba(189, 160, 78, 0.3)';">
-        {{-- Pulsing dot matching Image 2 --}}
+    " onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.borderColor='#4ade80'; this.style.boxShadow='0 14px 32px -3px rgba(0, 0, 0, 0.8), 0 0 24px rgba(34, 197, 94, 0.6), 0 0 0 1px #4ade80';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='#22c55e'; this.style.boxShadow='0 10px 25px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(34, 197, 94, 0.35), 0 0 0 1px rgba(34, 197, 94, 0.2)';">
+        {{-- Pulsing dot in Green --}}
         <span style="position: relative; display: inline-flex; width: 12px; height: 12px; flex-shrink: 0;">
             <span style="
                 position: absolute;
                 inset: -2px;
                 border-radius: 50%;
-                background: #ffffff;
+                background: #22c55e;
                 animation: pill-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
                 opacity: 0.8;
             "></span>
@@ -2330,12 +2345,12 @@
                 width: 12px;
                 height: 12px;
                 border-radius: 50%;
-                background: #ffffff;
-                box-shadow: 0 0 10px #ffffff, 0 0 4px #ffffff;
+                background: #22c55e;
+                box-shadow: 0 0 10px #22c55e, 0 0 4px #22c55e;
             "></span>
         </span>
 
-        {{-- Text in English, fits site theme, matching Image 2 style --}}
+        {{-- Text in English, fits site theme --}}
         <span style="
             font-family: 'Inter Tight', 'Inter', sans-serif;
             font-size: 13px;
@@ -2344,7 +2359,7 @@
             letter-spacing: 0.07em;
             text-transform: uppercase;
             white-space: nowrap;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.22);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         ">
             {{ $availableCars }} {{ $availableCars == 1 ? 'UNIT' : 'UNITS' }} AVAILABLE. FAST BOOKING HERE
         </span>
