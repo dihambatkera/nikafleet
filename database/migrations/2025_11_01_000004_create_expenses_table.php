@@ -10,10 +10,7 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->enum('category', [
-                'maintenance', 'fuel', 'insurance', 'cleaning',
-                'repair', 'tax', 'marketing', 'salary', 'utilities', 'other'
-            ]);
+            $table->string('category'); // maintenance|fuel|insurance|cleaning|repair|tax|marketing|salary|utilities|other
             $table->foreignId('car_id')->nullable()->constrained()->nullOnDelete();
             $table->decimal('amount', 10, 2);
             $table->text('description');

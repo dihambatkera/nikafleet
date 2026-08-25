@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('revenues', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rental_id')->nullable()->constrained()->nullOnDelete();
-            $table->enum('type', ['rental', 'deposit', 'penalty', 'refund', 'other']);
+            $table->string('type'); // rental|deposit|penalty|refund|other
             $table->decimal('amount', 10, 2);
             $table->string('description');
             $table->date('revenue_date');

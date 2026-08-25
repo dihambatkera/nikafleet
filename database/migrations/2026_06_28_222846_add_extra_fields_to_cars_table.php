@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            $table->decimal('late_return_penalty', 10, 2)->nullable()->after('deposit_amount');
-            $table->date('next_service_due')->nullable()->after('last_service_date');
-            $table->date('insurance_expiry')->nullable()->after('next_service_due');
-            $table->date('road_tax_expiry')->nullable()->after('insurance_expiry');
+            $table->decimal('late_return_penalty', 10, 2)->nullable();
+            $table->date('next_service_due')->nullable();
+            $table->date('insurance_expiry')->nullable();
+            $table->date('road_tax_expiry')->nullable();
         });
     }
 

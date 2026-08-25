@@ -11,10 +11,10 @@ return new class extends Migration
         Schema::table('rentals', function (Blueprint $table) {
             // Guest customer info columns
             if (!Schema::hasColumn('rentals', 'customer_name')) {
-                $table->string('customer_name')->nullable()->after('car_id');
+                $table->string('customer_name')->nullable();
             }
             if (!Schema::hasColumn('rentals', 'customer_phone')) {
-                $table->string('customer_phone')->nullable()->after('customer_name');
+                $table->string('customer_phone')->nullable();
             }
         });
     }

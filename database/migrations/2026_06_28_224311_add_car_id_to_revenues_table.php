@@ -13,14 +13,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('revenues', function (Blueprint $table) {
-            $table->foreignId('car_id')->nullable()->after('rental_id')->constrained()->nullOnDelete();
+            $table->foreignId('car_id')->nullable()->constrained()->nullOnDelete();
         });
 
         // Copy car_id from rentals to revenues for existing records
+        // Uses a subquery compatible with both PostgreSQL and MySQL
         try {
-            DB::table('revenues')
-                ->join('rentals', 'revenues.rental_id', '=', 'rentals.id')
-                ->update(['revenues.car_id' => DB::raw('rentals.car_id')]);
+            DB::statement('
+                UPDATE revenues
+                SET car_id = rentals.car_id
+                FROM rentals
+                WHERE revenues.rental_id = rentals.id
+                  AND revenues.car_id IS NULL
+            ');
         } catch (\Exception $e) {
             // Ignore if tables are empty or query fails
         }

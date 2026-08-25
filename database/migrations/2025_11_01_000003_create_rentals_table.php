@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2);
             $table->decimal('deposit_paid', 10, 2)->default(0);
             $table->decimal('balance_due', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'confirmed', 'active', 'completed', 'cancelled', 'refunded'])->default('pending');
+            $table->string('status')->default('pending'); // pending|confirmed|active|completed|cancelled|refunded
             $table->string('payment_method')->nullable();
             $table->string('payment_proof')->nullable();
             $table->string('pickup_location')->nullable();

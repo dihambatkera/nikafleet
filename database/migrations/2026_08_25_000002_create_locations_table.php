@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('status')->default('active'); // active|inactive
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
         });
