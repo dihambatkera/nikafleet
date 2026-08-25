@@ -10,32 +10,28 @@ RUN apt-get update && apt-get install -y \
     unzip \
     zip \
     nginx \
-    libzip-dev \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    libwebp-dev \
-    libxml2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
-# PHP extensions
+# PHP extensions via install-php-extensions (IPE)
+# IPE auto-installs all required system libs and handles
+# path discovery — no manual configure flags needed.
 # --------------------------------------------------
 
-RUN docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-    && docker-php-ext-install \
-        pdo \
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions \
         pdo_mysql \
+        gd \
         mbstring \
         exif \
         pcntl \
         bcmath \
-        gd \
         xml \
-        zip
+        zip \
+        intl \
+        opcache
 
 # --------------------------------------------------
 # Composer
