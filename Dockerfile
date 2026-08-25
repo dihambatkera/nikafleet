@@ -5,24 +5,18 @@ FROM php:8.3-fpm
 # --------------------------------------------------
 
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    unzip \
-    zip \
-    nginx \
+    git curl unzip zip nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
 # PHP extensions via install-php-extensions (IPE)
-# IPE auto-installs all required system libs and handles
-# path discovery — no manual configure flags needed.
 # --------------------------------------------------
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions \
-        pdo_mysql \
+        pdo_pgsql \
         gd \
         mbstring \
         exif \
@@ -32,6 +26,9 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
         zip \
         intl \
         opcache
+
+# Verify pdo_pgsql is actually loaded – build fails here if not
+RUN php -m | grep -q pdo_pgsql || (echo "❌ pdo_pgsql extension NOT found!" && exit 1)
 
 # --------------------------------------------------
 # Composer
@@ -48,49 +45,35 @@ COPY --from=node:22 /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # --------------------------------------------------
-# Laravel
+# App
 # --------------------------------------------------
 
 WORKDIR /var/www
 
-# ⚠️ DEBUG ONLY – revert APP_ENV/APP_DEBUG/LOG_LEVEL when going to production
+# ⚠️ DEBUG – revert to production/false when stable
 ENV APP_DEBUG=true
 ENV APP_ENV=local
 ENV LOG_CHANNEL=stderr
 ENV LOG_LEVEL=debug
-# Baked-in DB driver so Laravel never falls back to SQLite.
-# Render's runtime env vars will override host/port/user/pass at runtime.
+# Baked-in driver – overridden by Render env vars at runtime
 ENV DB_CONNECTION=pgsql
 
 COPY . .
 
-# PHP dependencies
-RUN composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Frontend dependencies + build
-RUN npm ci
-RUN npm run build
-
-# --------------------------------------------------
-# Laravel directories
-# --------------------------------------------------
+RUN npm ci && npm run build
 
 RUN mkdir -p \
     storage/framework/cache \
     storage/framework/sessions \
     storage/framework/views \
     storage/logs \
-    bootstrap/cache
-
-RUN chown -R www-data:www-data \
-    storage \
-    bootstrap/cache
+    bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
 
 # --------------------------------------------------
-# NGINX
+# Nginx
 # --------------------------------------------------
 
 COPY docker/nginx.conf /etc/nginx/sites-available/default

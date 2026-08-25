@@ -21,29 +21,21 @@ services:
       - key: APP_URL
         value: https://nikafleet.onrender.com   # update to your actual Render URL
 
-      # ── Database (Render native PostgreSQL) ──────────────────────────────
+      # ── Database (Render PostgreSQL) ──────────────────────────────────────
+      # Go to: Render Dashboard → your PostgreSQL DB → "Connect" tab
+      # Copy the "Internal" connection details and paste below.
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        fromDatabase:
-          name: nikafleet-db
-          property: host
+        value: PASTE_INTERNAL_HOST_FROM_RENDER     # e.g. dpg-xxxx-a.oregon-postgres.render.com
       - key: DB_PORT
-        fromDatabase:
-          name: nikafleet-db
-          property: port
+        value: "5432"
       - key: DB_DATABASE
-        fromDatabase:
-          name: nikafleet-db
-          property: database
+        value: PASTE_DB_NAME_FROM_RENDER            # e.g. nikafleet_xxxx
       - key: DB_USERNAME
-        fromDatabase:
-          name: nikafleet-db
-          property: user
+        value: PASTE_DB_USER_FROM_RENDER            # e.g. nikafleet_xxxx_user
       - key: DB_PASSWORD
-        fromDatabase:
-          name: nikafleet-db
-          property: password
+        value: PASTE_DB_PASSWORD_FROM_RENDER        # the long password Render generated
 
       # ── Session & Cache ───────────────────────────────────────────────────
       - key: SESSION_DRIVER
