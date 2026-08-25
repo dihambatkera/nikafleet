@@ -232,8 +232,8 @@ class CarForm extends LivewireComponent
 
             $this->imagesList[] = [
                 'id' => $tempId,
-                'url' => Storage::disk('public')->url($storedPath),
-                'is_primary' => !$hasAnyPrimary && empty($this->imagesList), // set primary if first image
+                'url' => asset('storage/' . $storedPath),
+                'is_primary' => !$hasAnyPrimary && empty($this->imagesList), // set primary if no primary exists
                 'temp_path' => $storedPath,
                 'image_path' => null,
             ];

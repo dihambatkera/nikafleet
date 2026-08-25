@@ -94,11 +94,8 @@ class Car extends Model
         $img = $this->images()->where('is_primary', true)->first()
             ?? $this->images()->first();
 
-        if ($img && !empty($img->image_path)) {
-            if (str_starts_with($img->image_path, 'http://') || str_starts_with($img->image_path, 'https://')) {
-                return $img->image_path;
-            }
-            return Storage::disk('public')->url($img->image_path);
+        if ($img) {
+            return $img->url;
         }
 
         return asset('assets/images/logo-official.jpeg');
