@@ -26,7 +26,7 @@ class DashboardController extends Controller
         // ─── ACTIVE BOOKINGS TABLE ────────────────────────────────────
         $activeRentals = Rental::with(['car'])
             ->whereIn('status', ['active', 'confirmed', 'pending'])
-            ->orderByRaw("FIELD(status, 'active', 'confirmed', 'pending')")
+            ->orderByRaw("CASE WHEN status = 'active' THEN 1 WHEN status = 'confirmed' THEN 2 WHEN status = 'pending' THEN 3 ELSE 4 END")
             ->orderBy('start_date')
             ->get();
 

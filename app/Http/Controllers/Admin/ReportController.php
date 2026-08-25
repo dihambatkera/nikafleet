@@ -394,7 +394,7 @@ class ReportController extends Controller
                 'customer_name',
                 'customer_phone',
                 DB::raw('COUNT(*) as total_bookings'),
-                DB::raw('SUM(CASE WHEN status IN ("confirmed", "active", "completed") THEN total_amount ELSE 0 END) as total_spent'),
+                DB::raw("SUM(CASE WHEN status IN ('confirmed', 'active', 'completed') THEN total_amount ELSE 0 END) as total_spent"),
                 DB::raw('MIN(start_date) as first_booking'),
                 DB::raw('MAX(start_date) as last_booking')
             )
@@ -420,7 +420,7 @@ class ReportController extends Controller
                 'customer_name',
                 'customer_phone',
                 DB::raw('COUNT(*) as total_bookings'),
-                DB::raw('SUM(CASE WHEN status IN ("confirmed", "active", "completed") THEN total_amount ELSE 0 END) as total_spent'),
+                DB::raw("SUM(CASE WHEN status IN ('confirmed', 'active', 'completed') THEN total_amount ELSE 0 END) as total_spent"),
                 DB::raw('MIN(start_date) as first_booking'),
                 DB::raw('MAX(start_date) as last_booking')
             )
