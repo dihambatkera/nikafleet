@@ -1,0 +1,31 @@
+﻿# Git
+.git
+.gitignore
+.gitattributes
+
+# Node
+node_modules
+
+# Laravel local stuff
+.env
+.env.backup
+.env.local
+
+# Tests
+tests
+phpunit.xml
+.phpunit.result.cache
+
+# Dev tools
+.editorconfig
+README.md
+*.md
+
+# IDE / OS
+.idea
+.vscode
+*.DS_Store
+Thumbs.db
+
+# Docker files themselves (optional – exclude to keep image lean)
+docker-compose*.yml
