@@ -143,22 +143,26 @@ class ProductionDataSeeder extends Seeder
         ]);
 
         // ── 12. Fix PostgreSQL auto-increment sequences ────────────────────────
-        // After inserting with explicit IDs, PostgreSQL sequences need resetting
-        $sequences = [
-            'users'                    => 'users_id_seq',
-            'cars'                     => 'cars_id_seq',
-            'car_images'               => 'car_images_id_seq',
-            'rentals'                  => 'rentals_id_seq',
-            'locations'                => 'locations_id_seq',
-            'time_slots'               => 'time_slots_id_seq',
-            'settings'                 => 'settings_id_seq',
-            'roles'                    => 'roles_id_seq',
-            'permissions'              => 'permissions_id_seq',
-        ];
-        foreach ($sequences as $table => $seq) {
-            DB::statement("SELECT setval('{$seq}', (SELECT MAX(id) FROM {$table}))");
+        // After inserting with explicit IDs, PostgreSQL sequences need resetting.
+        // Skip on MySQL / SQLite.
+        if (DB::getDriverName() === 'pgsql') {
+            $sequences = [
+                'users'       => 'users_id_seq',
+                'cars'        => 'cars_id_seq',
+                'car_images'  => 'car_images_id_seq',
+                'rentals'     => 'rentals_id_seq',
+                'locations'   => 'locations_id_seq',
+                'time_slots'  => 'time_slots_id_seq',
+                'settings'    => 'settings_id_seq',
+                'roles'       => 'roles_id_seq',
+                'permissions' => 'permissions_id_seq',
+            ];
+            foreach ($sequences as $table => $seq) {
+                DB::statement("SELECT setval('{$seq}', (SELECT MAX(id) FROM {$table}))");
+            }
         }
 
         $this->command->info('✅ Production data seeded successfully!');
+
     }
 }

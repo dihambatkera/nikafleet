@@ -53,6 +53,15 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 WORKDIR /var/www
 
+# ⚠️ DEBUG ONLY – revert APP_ENV/APP_DEBUG/LOG_LEVEL when going to production
+ENV APP_DEBUG=true
+ENV APP_ENV=local
+ENV LOG_CHANNEL=stderr
+ENV LOG_LEVEL=debug
+# Baked-in DB driver so Laravel never falls back to SQLite.
+# Render's runtime env vars will override host/port/user/pass at runtime.
+ENV DB_CONNECTION=pgsql
+
 COPY . .
 
 # PHP dependencies
