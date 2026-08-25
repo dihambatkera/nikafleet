@@ -1,81 +1,97 @@
-﻿# ─── Stage 1: Node – build front-end assets ───────────────────────────────────
-FROM node:20-alpine AS node-builder
+﻿FROM php:8.3-fpm
 
-WORKDIR /app
+# --------------------------------------------------
+# System dependencies
+# --------------------------------------------------
 
-COPY package*.json ./
-RUN npm ci
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    unzip \
+    zip \
+    nginx \
+    libpq-dev \
+    libzip-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libwebp-dev \
+    libxml2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------------
+# PHP extensions
+# --------------------------------------------------
+
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp
+
+RUN docker-php-ext-install \
+    pdo \
+    pdo_pgsql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    xml \
+    zip
+
+# --------------------------------------------------
+# Composer
+# --------------------------------------------------
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# --------------------------------------------------
+# Node.js
+# --------------------------------------------------
+
+COPY --from=node:22 /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:22 /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+
+# --------------------------------------------------
+# Laravel
+# --------------------------------------------------
+
+WORKDIR /var/www
 
 COPY . .
-RUN npm run build
 
-# ─── Stage 2: PHP – final image ───────────────────────────────────────────────
-FROM php:8.2-fpm-alpine AS php-base
-
-# Install system dependencies
-RUN apk add --no-cache \
-    bash \
-    curl \
-    nginx \
-    supervisor \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    freetype-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    oniguruma-dev \
-    icu-dev \
-    && docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-    && docker-php-ext-install \
-        pdo \
-        pdo_mysql \
-        gd \
-        mbstring \
-        exif \
-        pcntl \
-        bcmath \
-        xml \
-        zip \
-        intl
-
-# Install Composer
-COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
-
-WORKDIR /var/www/html
-
-# Copy composer files first (layer caching)
-COPY composer.json composer.lock ./
-
-# Install PHP dependencies (no dev, optimised autoloader)
+# PHP dependencies
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
-    --no-scripts \
     --no-interaction
 
-# Copy the rest of the application
-COPY . .
+# Frontend dependencies + build
+RUN npm ci
+RUN npm run build
 
-# Copy compiled front-end assets from node-builder
-COPY --from=node-builder /app/public/build ./public/build
+# --------------------------------------------------
+# Laravel directories
+# --------------------------------------------------
 
-# Set correct permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+RUN mkdir -p \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache
 
-# Copy config files
-COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chown -R www-data:www-data \
+    storage \
+    bootstrap/cache
 
-EXPOSE 8080
+# --------------------------------------------------
+# NGINX
+# --------------------------------------------------
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+
+EXPOSE 10000
+
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
