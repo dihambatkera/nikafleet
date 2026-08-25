@@ -1,4 +1,4 @@
-﻿# render.yaml – NikaFleet deployment configuration
+# render.yaml – NikaFleet deployment configuration
 # Docs: https://render.com/docs/blueprint-spec
 
 services:
@@ -13,17 +13,17 @@ services:
       - key: APP_NAME
         value: NikaFleet
       - key: APP_ENV
-        value: production
+        value: local          # ⚠️ DEBUG ONLY – change back to production when done
       - key: APP_DEBUG
-        value: false
+        value: true           # ⚠️ DEBUG ONLY – change back to false when done
       - key: APP_KEY
         generateValue: true   # Render auto-generates a secret
       - key: APP_URL
-        value: https://nikafleet.onrender.com   # update once you know the URL
+        value: https://nikafleet.onrender.com   # update to your actual Render URL
 
-      # ── Database (use Render's MySQL add-on or external DB) ──
+      # ── Database (Render native PostgreSQL) ──────────────────────────────
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
         fromDatabase:
           name: nikafleet-db
@@ -45,19 +45,25 @@ services:
           name: nikafleet-db
           property: password
 
-      # ── Cache / Queue ──
+      # ── Session & Cache ───────────────────────────────────────────────────
+      - key: SESSION_DRIVER
+        value: file
       - key: CACHE_STORE
-        value: database
+        value: file
       - key: QUEUE_CONNECTION
         value: database
-      - key: SESSION_DRIVER
-        value: database
 
-      # ── Filesystem ──
+      # ── Filesystem ────────────────────────────────────────────────────────
       - key: FILESYSTEM_DISK
         value: public
 
-      # ── Company info ──
+      # ── Logging ───────────────────────────────────────────────────────────
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: debug
+
+      # ── Company info ──────────────────────────────────────────────────────
       - key: COMPANY_PHONE
         value: "+60 11-6824 7599"
       - key: COMPANY_WHATSAPP
@@ -71,4 +77,4 @@ databases:
   - name: nikafleet-db
     databaseName: nikafleet
     user: nikafleet
-    plan: free   # Render free MySQL (90-day TTL) – upgrade for production
+    plan: free   # Render free PostgreSQL – upgrade to paid for production
