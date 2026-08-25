@@ -1,29 +1,32 @@
-<div class="space-y-6" x-data="{ activeTab: @entangle('activeTab') }">
+<div class="space-y-6" x-data="{ activeTab: @js($activeTab) }" x-init="$watch('$wire.activeTab', val => { if(val) activeTab = val })">
     <!-- Tabs Header -->
     <div class="flex items-center justify-between">
         <div class="flex border-b border-gray-200 w-full">
             <button type="button" 
-                    @click="activeTab = 'general'"
-                    :class="activeTab === 'general' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                    class="py-3 px-6 text-sm font-semibold border-b-2 transition-all flex items-center gap-2">
+                    @click="activeTab = 'general'; $wire.set('activeTab', 'general')"
+                    wire:click="setTab('general')"
+                    :class="activeTab === 'general' ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    class="py-3 px-6 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
                 Vehicle Details
             </button>
             <button type="button" 
-                    @click="activeTab = 'images'"
-                    :class="activeTab === 'images' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                    class="py-3 px-6 text-sm font-semibold border-b-2 transition-all flex items-center gap-2">
+                    @click="activeTab = 'images'; $wire.set('activeTab', 'images')"
+                    wire:click="setTab('images')"
+                    :class="activeTab === 'images' ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    class="py-3 px-6 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
                 Vehicle Images ({{ count($imagesList) }})
             </button>
             <button type="button" 
-                    @click="activeTab = 'blocks'"
-                    :class="activeTab === 'blocks' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
-                    class="py-3 px-6 text-sm font-semibold border-b-2 transition-all flex items-center gap-2">
+                    @click="activeTab = 'blocks'; $wire.set('activeTab', 'blocks')"
+                    wire:click="setTab('blocks')"
+                    :class="activeTab === 'blocks' ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    class="py-3 px-6 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
@@ -44,7 +47,7 @@
 
     <form wire:submit.prevent="save" class="space-y-6">
         <!-- ════════════════ TAB 1: GENERAL INFO ════════════════ -->
-        <div x-show="activeTab === 'general'" class="space-y-6 animate-fadeIn">
+        <div x-show="activeTab === 'general'" :class="{ 'hidden': activeTab !== 'general' }" class="space-y-6 animate-fadeIn">
             
             <!-- SECTION 1 — Identiti Kereta -->
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
@@ -317,7 +320,7 @@
         </div>
 
         <!-- ════════════════ TAB 2: IMAGE UPLOADER ════════════════ -->
-        <div x-show="activeTab === 'images'" class="space-y-6 animate-fadeIn" x-cloak>
+        <div x-show="activeTab === 'images'" :class="{ 'hidden': activeTab !== 'images' }" class="space-y-6 animate-fadeIn" x-cloak>
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
@@ -443,7 +446,7 @@
         </div>
 
         <!-- ════════════════ TAB 3: BLOCK AVAILABILITY ════════════════ -->
-        <div x-show="activeTab === 'blocks'" class="space-y-6 animate-fadeIn" x-cloak>
+        <div x-show="activeTab === 'blocks'" :class="{ 'hidden': activeTab !== 'blocks' }" class="space-y-6 animate-fadeIn" x-cloak>
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 
                 <div class="flex items-center gap-2 pb-3 border-b border-gray-100">

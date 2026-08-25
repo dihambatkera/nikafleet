@@ -127,6 +127,13 @@ class CarForm extends LivewireComponent
         'status.required' => 'Status is required.',
     ];
 
+    public function setTab(string $tab): void
+    {
+        if (in_array($tab, ['general', 'images', 'blocks'])) {
+            $this->activeTab = $tab;
+        }
+    }
+
     public function mount(?Car $car = null)
     {
         // Read URL query parameter for tab
