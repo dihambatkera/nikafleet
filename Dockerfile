@@ -64,6 +64,7 @@ RUN rm -f public/hot
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 RUN npm ci && npm run build
+RUN php artisan livewire:publish --assets
 
 # Configure PHP upload and memory limits
 RUN echo "upload_max_filesize = 20M\npost_max_size = 64M\nmemory_limit = 256M\nmax_file_uploads = 20" > /usr/local/etc/php/conf.d/uploads.ini
