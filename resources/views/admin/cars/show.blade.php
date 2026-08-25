@@ -48,13 +48,13 @@
         <!-- LEFT COLUMN (2/3 width) - Image Gallery, Rentals, Expenses -->
         <div class="lg:col-span-2 space-y-6">
             
-            <!-- SECTION 5 — Image Gallery (Alpine.js integration) -->
+            <!-- SECTION 5 — Image Gallery -->
             <div x-data="{ activeImage: '{{ $car->primary_image_url }}' }" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4">
                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Image Gallery</h3>
                 
                 <!-- Main Preview -->
                 <div class="h-96 w-full rounded-xl overflow-hidden bg-gray-50 border border-gray-150 relative">
-                    <img :src="activeImage" alt="{{ $car->name }}" class="w-full h-full object-cover" />
+                    <img id="car-main-preview" :src="activeImage" src="{{ $car->primary_image_url }}" alt="{{ $car->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('assets/images/logo-official.jpeg') }}'" />
                 </div>
                 
                 <!-- Thumbnails Slider -->
@@ -62,10 +62,11 @@
                     <div class="flex gap-2 overflow-x-auto pb-2">
                         @foreach($car->images as $img)
                             <button type="button" 
-                                    @click="activeImage = '{{ asset('storage/' . $img->image_path) }}'" 
-                                    class="w-24 h-16 rounded-lg overflow-hidden border-2 transition-all focus:outline-none flex-shrink-0"
-                                    :class="activeImage === '{{ asset('storage/' . $img->image_path) }}' ? 'border-blue-500 ring-2 ring-blue-100' : 'border-gray-200 hover:border-gray-300'">
-                                <img src="{{ asset('storage/' . $img->image_path) }}" alt="Thumbnail" class="w-full h-full object-cover" />
+                                    onclick="document.getElementById('car-main-preview').src = '{{ $img->url }}'"
+                                    @click="activeImage = '{{ $img->url }}'" 
+                                    class="w-24 h-16 rounded-lg overflow-hidden border-2 transition-all focus:outline-none flex-shrink-0 cursor-pointer"
+                                    :class="activeImage === '{{ $img->url }}' ? 'border-blue-500 ring-2 ring-blue-100' : 'border-gray-200 hover:border-gray-300'">
+                                <img src="{{ $img->url }}" alt="Thumbnail" class="w-full h-full object-cover" onerror="this.src='{{ asset('assets/images/logo-official.jpeg') }}'" />
                             </button>
                         @endforeach
                     </div>

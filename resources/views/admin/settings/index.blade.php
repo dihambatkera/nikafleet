@@ -69,9 +69,12 @@
             <div class="bg-white rounded-2xl border border-slate-200/80 p-3 shadow-sm space-y-1">
                 
                 <!-- Tab 1 -->
-                <button @click="activeTab = 'maklumat-syarikat'" 
-                        :class="activeTab === 'maklumat-syarikat' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
-                        class="w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold">
+                <button type="button"
+                        id="settings-tab-btn-maklumat-syarikat"
+                        onclick="switchSettingsTab('maklumat-syarikat')"
+                        @click="activeTab = 'maklumat-syarikat'" 
+                        :class="activeTab === 'maklumat-syarikat' ? 'bg-indigo-50 border-indigo-200 text-indigo-700 font-bold' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
+                        class="settings-sidebar-btn w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold cursor-pointer">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                     </svg>
@@ -79,9 +82,12 @@
                 </button>
 
                 <!-- Tab 2 -->
-                <button @click="activeTab = 'tempahan'" 
-                        :class="activeTab === 'tempahan' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
-                        class="w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold">
+                <button type="button"
+                        id="settings-tab-btn-tempahan"
+                        onclick="switchSettingsTab('tempahan')"
+                        @click="activeTab = 'tempahan'" 
+                        :class="activeTab === 'tempahan' ? 'bg-indigo-50 border-indigo-200 text-indigo-700 font-bold' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
+                        class="settings-sidebar-btn w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold cursor-pointer">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
@@ -89,9 +95,12 @@
                 </button>
 
                 <!-- Tab 3 -->
-                <button @click="activeTab = 'kewangan'" 
-                        :class="activeTab === 'kewangan' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
-                        class="w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold">
+                <button type="button"
+                        id="settings-tab-btn-kewangan"
+                        onclick="switchSettingsTab('kewangan')"
+                        @click="activeTab = 'kewangan'" 
+                        :class="activeTab === 'kewangan' ? 'bg-indigo-50 border-indigo-200 text-indigo-700 font-bold' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
+                        class="settings-sidebar-btn w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold cursor-pointer">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
@@ -99,9 +108,12 @@
                 </button>
 
                 <!-- Tab 4 -->
-                <button @click="activeTab = 'admin-pengguna'" 
-                        :class="activeTab === 'admin-pengguna' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
-                        class="w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold">
+                <button type="button"
+                        id="settings-tab-btn-admin-pengguna"
+                        onclick="switchSettingsTab('admin-pengguna')"
+                        @click="activeTab = 'admin-pengguna'" 
+                        :class="activeTab === 'admin-pengguna' ? 'bg-indigo-50 border-indigo-200 text-indigo-700 font-bold' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
+                        class="settings-sidebar-btn w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold cursor-pointer">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
@@ -109,9 +121,12 @@
                 </button>
 
                 <!-- Tab 5 -->
-                <button @click="activeTab = 'data-backup'" 
-                        :class="activeTab === 'data-backup' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
-                        class="w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold">
+                <button type="button"
+                        id="settings-tab-btn-data-backup"
+                        onclick="switchSettingsTab('data-backup')"
+                        @click="activeTab = 'data-backup'" 
+                        :class="activeTab === 'data-backup' ? 'bg-indigo-50 border-indigo-200 text-indigo-700 font-bold' : 'text-slate-600 hover:bg-slate-50 border-transparent hover:text-slate-900'"
+                        class="settings-sidebar-btn w-full text-left px-4 py-3 rounded-xl border flex items-center gap-3 transition duration-150 text-sm font-semibold cursor-pointer">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.58 4 8 4s8-1.79 8-4M4 7c0-2.21 3.58-4 8-4s8 1.79 8 4m0 5c0 2.21-3.58 4-8 4s-8-1.79-8-4"/>
                     </svg>
@@ -127,7 +142,7 @@
             <!-- ═══════════════════════════════════════════════════
                  TAB 1: MAKLUMAT SYARIKAT
                  ═══════════════════════════════════════════════════ -->
-            <div x-show="activeTab === 'maklumat-syarikat'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
+            <div id="settings-pane-maklumat-syarikat" x-show="activeTab === 'maklumat-syarikat'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
                 <form action="{{ route('admin.settings.company') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="border-b border-slate-100 pb-5 mb-6">
@@ -265,7 +280,7 @@
             <!-- ═══════════════════════════════════════════════════
                  TAB 2: TETAPAN TEMPAHAN
                  ═══════════════════════════════════════════════════ -->
-            <div x-show="activeTab === 'tempahan'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
+            <div id="settings-pane-tempahan" x-show="activeTab === 'tempahan'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
                 <form action="{{ route('admin.settings.booking') }}" method="POST">
                     @csrf
                     <div class="border-b border-slate-100 pb-5 mb-6">
@@ -384,7 +399,7 @@
             <!-- ═══════════════════════════════════════════════════
                  TAB 3: KEWANGAN
                  ═══════════════════════════════════════════════════ -->
-            <div x-show="activeTab === 'kewangan'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
+            <div id="settings-pane-kewangan" x-show="activeTab === 'kewangan'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
                 <form action="{{ route('admin.settings.finance') }}" method="POST" x-data="{ taxApplicable: {{ setting('finance_tax_applicable', '0') == '1' ? 'true' : 'false' }} }">
                     @csrf
                     <div class="border-b border-slate-100 pb-5 mb-6">
@@ -472,7 +487,7 @@
             <!-- ═══════════════════════════════════════════════════
                  TAB 4: PENGGUNA ADMIN
                  ═══════════════════════════════════════════════════ -->
-            <div x-show="activeTab === 'admin-pengguna'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
+            <div id="settings-pane-admin-pengguna" x-show="activeTab === 'admin-pengguna'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
                 
                 <!-- Admin User Table -->
                 <div class="mb-10">
@@ -640,7 +655,7 @@
             <!-- ═══════════════════════════════════════════════════
                  TAB 5: DATA & BACKUP
                  ═══════════════════════════════════════════════════ -->
-            <div x-show="activeTab === 'data-backup'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
+            <div id="settings-pane-data-backup" x-show="activeTab === 'data-backup'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1">
                 <div class="border-b border-slate-100 pb-5 mb-6">
                     <h2 class="text-xl font-bold text-slate-900" style="font-family: 'Plus Jakarta Sans', sans-serif;">Data & Backup</h2>
                     <p class="text-slate-500 text-xs mt-1">Eksport laporan penting syarikat, sandarkan seluruh data pangkalan data SQL, atau tetapkan semula data kepada demo asal.</p>
@@ -722,4 +737,30 @@
     </div>
 
 </div>
+
+<script>
+function switchSettingsTab(tabName) {
+    var panes = ['maklumat-syarikat', 'tempahan', 'kewangan', 'admin-pengguna', 'data-backup'];
+    panes.forEach(function(name) {
+        var pane = document.getElementById('settings-pane-' + name);
+        if (pane) {
+            if (name === tabName) {
+                pane.style.setProperty('display', 'block', 'important');
+            } else {
+                pane.style.setProperty('display', 'none', 'important');
+            }
+        }
+        var btn = document.getElementById('settings-tab-btn-' + name);
+        if (btn) {
+            if (name === tabName) {
+                btn.classList.add('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'font-bold');
+                btn.classList.remove('text-slate-600', 'border-transparent');
+            } else {
+                btn.classList.remove('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'font-bold');
+                btn.classList.add('text-slate-600', 'border-transparent');
+            }
+        }
+    });
+}
+</script>
 @endsection

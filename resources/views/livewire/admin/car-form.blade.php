@@ -323,7 +323,7 @@
         </div>
 
         <!-- ════════════════ TAB 2: IMAGE UPLOADER ════════════════ -->
-        <div id="tab-pane-images" class="vehicle-tab-pane space-y-6 animate-fadeIn hidden" style="display: none;" x-show="activeTab === 'images'">
+        <div id="tab-pane-images" class="vehicle-tab-pane space-y-6 animate-fadeIn {{ $activeTab === 'images' ? '' : 'hidden' }}" x-show="activeTab === 'images'">
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
@@ -336,10 +336,8 @@
 
                 <!-- Drag-and-drop file uploader area -->
                 <div class="flex justify-center items-center w-full">
-                    <label for="vehicle-images-input"
-                           id="vehicle-images-dropzone"
-                           onclick="document.getElementById('vehicle-images-input').click()"
-                           class="flex flex-col justify-center items-center w-full h-48 bg-gray-50 hover:bg-gray-100/80 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer transition-all hover:border-blue-500 group relative select-none">
+                    <div onclick="document.getElementById('vehicle-images-input').click()"
+                         class="flex flex-col justify-center items-center w-full h-48 bg-gray-50 hover:bg-gray-100/80 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer transition-all hover:border-blue-500 group select-none relative">
                         <div class="flex flex-col justify-center items-center pt-5 pb-4 pointer-events-none text-center px-4">
                             <!-- Cloud upload icon -->
                             <div class="w-12 h-12 mb-3 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -352,17 +350,17 @@
                         </div>
                         <button type="button" 
                                 onclick="event.stopPropagation(); document.getElementById('vehicle-images-input').click();"
-                                class="mb-3 px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all cursor-pointer">
+                                class="mb-3 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow transition-all cursor-pointer">
                             Browse Images
                         </button>
-                        <input type="file" 
-                               id="vehicle-images-input" 
-                               wire:model="newImages" 
-                               name="images[]"
-                               class="hidden" 
-                               multiple 
-                               accept="image/jpeg,image/png,image/webp,image/jpg" />
-                    </label>
+                    </div>
+                    <input type="file" 
+                           id="vehicle-images-input" 
+                           wire:model="newImages" 
+                           name="images[]"
+                           class="hidden" 
+                           multiple 
+                           accept="image/jpeg,image/png,image/webp,image/jpg" />
                 </div>
 
                 <!-- Livewire File Upload Loading Indicator -->
@@ -393,7 +391,7 @@
                                     
                                     <!-- Image Thumbnail -->
                                     <div class="relative h-28 w-full bg-gray-100">
-                                        <img src="{{ $img['url'] }}" alt="Vehicle image" class="w-full h-full object-cover" />
+                                        <img src="{{ $img['url'] }}" alt="Vehicle image" class="w-full h-full object-cover" onerror="this.src='{{ asset('assets/images/logo-official.jpeg') }}'" />
                                         
                                         <!-- Primary Image Badge -->
                                         @if(!empty($img['is_primary']))
@@ -405,25 +403,26 @@
                                             </span>
                                         @endif
 
-                                        <!-- Actions Overlay on Hover -->
-                                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 z-20">
-                                            
-                                            <!-- Star Icon (Set Primary) -->
-                                            <button type="button" 
-                                                    wire:click.prevent="setPrimaryImage('{{ $img['id'] }}')"
-                                                    class="p-2 bg-white hover:bg-yellow-50 text-yellow-500 rounded-lg shadow-md transition-all hover:scale-110 cursor-pointer"
-                                                    title="Set as Primary">
-                                                <svg class="w-4 h-4 {{ !empty($img['is_primary']) ? 'fill-current' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.837-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-                                                </svg>
-                                            </button>
+                                        <!-- Always visible action buttons at top right of card -->
+                                        <div class="absolute top-2 right-2 flex items-center gap-1.5 z-20">
+                                            <!-- Set Primary Button -->
+                                            @if(empty($img['is_primary']))
+                                                <button type="button" 
+                                                        wire:click="setPrimaryImage('{{ $img['id'] }}')"
+                                                        class="p-1.5 bg-white/90 hover:bg-yellow-400 text-gray-600 hover:text-yellow-950 rounded-lg shadow-sm transition-all hover:scale-105 cursor-pointer"
+                                                        title="Set as Primary">
+                                                    <svg class="w-3.5 h-3.5 fill-none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.837-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                                    </svg>
+                                                </button>
+                                            @endif
 
                                             <!-- Delete Button -->
                                             <button type="button" 
-                                                    wire:click.prevent="deleteImage('{{ $img['id'] }}')"
-                                                    class="p-2 bg-white hover:bg-red-50 text-red-600 rounded-lg shadow-md transition-all hover:scale-110 cursor-pointer"
+                                                    wire:click="deleteImage('{{ $img['id'] }}')"
+                                                    class="p-1.5 bg-white/90 hover:bg-red-600 text-gray-600 hover:text-white rounded-lg shadow-sm transition-all hover:scale-105 cursor-pointer"
                                                     title="Delete Image">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                 </svg>
                                             </button>
@@ -433,7 +432,7 @@
                                     <!-- Reordering Controls -->
                                     <div class="flex items-center justify-between p-2 border-t border-gray-150 bg-white relative z-10">
                                         <button type="button" 
-                                                wire:click.prevent="moveImage({{ $index }}, -1)"
+                                                wire:click="moveImage({{ $index }}, -1)"
                                                 class="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded transition-all disabled:opacity-20 cursor-pointer"
                                                 @if($index === 0) disabled @endif
                                                 title="Move Left">
@@ -443,7 +442,7 @@
                                         </button>
                                         <span class="text-[10px] font-semibold text-gray-400">#{{ $index + 1 }}</span>
                                         <button type="button" 
-                                                wire:click.prevent="moveImage({{ $index }}, 1)"
+                                                wire:click="moveImage({{ $index }}, 1)"
                                                 class="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded transition-all disabled:opacity-20 cursor-pointer"
                                                 @if($index === count($imagesList) - 1) disabled @endif
                                                 title="Move Right">
