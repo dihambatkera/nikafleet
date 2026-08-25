@@ -28,9 +28,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Force HTTPS in production / behind reverse proxy (Render)
+        // Force HTTPS & Root URL in production / behind reverse proxy (Render)
         if (app()->environment('production') || str_starts_with(config('app.url'), 'https://') || request()->header('x-forwarded-proto') === 'https') {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+        if (!empty(config('app.url')) && !app()->environment('local')) {
+            \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
         }
 
         // Register policies
