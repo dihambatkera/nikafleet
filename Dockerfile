@@ -65,13 +65,20 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 RUN npm ci && npm run build
 
+# Configure PHP upload and memory limits
+RUN echo "upload_max_filesize = 20M\npost_max_size = 64M\nmemory_limit = 256M\nmax_file_uploads = 20" > /usr/local/etc/php/conf.d/uploads.ini
+
 RUN mkdir -p \
+    storage/app/public/cars \
+    storage/app/public/temp_uploads \
+    storage/app/livewire-tmp \
     storage/framework/cache \
     storage/framework/sessions \
     storage/framework/views \
     storage/logs \
     bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # --------------------------------------------------
 # Nginx

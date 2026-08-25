@@ -222,15 +222,24 @@ class CarForm extends LivewireComponent
             $storedPath = $file->store('temp_uploads', 'public');
             $tempId = uniqid('temp_');
             
+            $hasAnyPrimary = false;
+            foreach ($this->imagesList as $existing) {
+                if (!empty($existing['is_primary'])) {
+                    $hasAnyPrimary = true;
+                    break;
+                }
+            }
+
             $this->imagesList[] = [
                 'id' => $tempId,
-                'url' => asset('storage/' . $storedPath),
-                'is_primary' => empty($this->imagesList), // set primary if first image
+                'url' => Storage::disk('public')->url($storedPath),
+                'is_primary' => !$hasAnyPrimary && empty($this->imagesList), // set primary if first image
                 'temp_path' => $storedPath,
                 'image_path' => null,
             ];
         }
 
+        $this->imagesList = array_values($this->imagesList);
         $this->newImages = [];
     }
 
@@ -241,6 +250,7 @@ class CarForm extends LivewireComponent
         foreach ($this->imagesList as $key => $img) {
             $this->imagesList[$key]['is_primary'] = ((string)$img['id'] === $imageId);
         }
+        $this->imagesList = array_values($this->imagesList);
     }
 
     // Delete Image from list
@@ -270,7 +280,7 @@ class CarForm extends LivewireComponent
         // If primary image was deleted, auto-assign first remaining image as primary
         $hasPrimary = false;
         foreach ($this->imagesList as $img) {
-            if ($img['is_primary']) {
+            if (!empty($img['is_primary'])) {
                 $hasPrimary = true;
                 break;
             }
@@ -284,15 +294,18 @@ class CarForm extends LivewireComponent
     // Move Image in order (left/right)
     public function moveImage($index, $direction)
     {
+        $index = (int)$index;
+        $direction = (int)$direction;
         $targetIndex = $index + $direction;
 
-        if ($targetIndex < 0 || $targetIndex >= count($this->imagesList)) {
+        if ($targetIndex < 0 || $targetIndex >= count($this->imagesList) || !isset($this->imagesList[$index]) || !isset($this->imagesList[$targetIndex])) {
             return; // Out of bounds
         }
 
         $temp = $this->imagesList[$index];
         $this->imagesList[$index] = $this->imagesList[$targetIndex];
         $this->imagesList[$targetIndex] = $temp;
+        $this->imagesList = array_values($this->imagesList);
     }
 
     // SECTION 6 — Add blocked date range
@@ -406,6 +419,10 @@ class CarForm extends LivewireComponent
                 $fileName = uniqid() . '.webp';
                 $relativePath = "{$folder}/{$fileName}";
                 $destinationPath = storage_path("app/public/{$relativePath}");
+
+                if (!is_dir(dirname($destinationPath))) {
+                    @mkdir(dirname($destinationPath), 0775, true);
+                }
 
                 $savedSuccessfully = false;
 
