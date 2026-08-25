@@ -14,7 +14,7 @@ class AdminMiddleware
             return redirect()->route('admin.login')->with('status', 'Please sign in to access the admin panel.');
         }
 
-        if (! auth()->user()->hasRole('admin')) {
+        if (! auth()->user()->isAdmin()) {
             auth()->logout();
             return redirect()->route('admin.login')->withErrors([
                 'email' => 'You do not have admin access.',

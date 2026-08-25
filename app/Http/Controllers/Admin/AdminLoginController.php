@@ -16,7 +16,7 @@ class AdminLoginController extends Controller
     public function showLogin(): View|RedirectResponse
     {
         // Already logged in as admin → go to admin dashboard
-        if (Auth::check() && Auth::user()->hasRole('admin')) {
+        if (Auth::check() && Auth::user()->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -40,8 +40,8 @@ class AdminLoginController extends Controller
 
             $user = Auth::user();
 
-            // Must be an admin role
-            if (! $user->hasRole('admin')) {
+            // Must be admin or superadmin role
+            if (! $user->isAdmin()) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
@@ -51,7 +51,9 @@ class AdminLoginController extends Controller
                 ])->onlyInput('email');
             }
 
-            return redirect()->intended(route('admin.dashboard'));
+            // Always redirect to admin dashboard — never use intended() to avoid
+            // being hijacked by a previously stored non-admin URL
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([

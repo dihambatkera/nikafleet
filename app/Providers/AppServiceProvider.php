@@ -33,9 +33,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Rental::class, RentalPolicy::class);
         Gate::policy(Expense::class, ExpensePolicy::class);
 
-        // Admin bypass — admin can do everything
+        // Admin bypass — admin and superadmin can do everything
         Gate::before(function ($user, $ability) {
-            if ($user->hasRole('admin')) {
+            if ($user->isAdmin()) {
                 return true;
             }
         });
