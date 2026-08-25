@@ -81,4 +81,4 @@ COPY docker/nginx.conf /etc/nginx/sites-available/default
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "php artisan migrate --force && php artisan db:seed --class=ProductionDataSeeder --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan storage:link --force && php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan storage:link --force && php-fpm -D && nginx -g 'daemon off;'"]
