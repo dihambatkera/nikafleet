@@ -283,57 +283,71 @@
           min-height: calc(100vh - 72px);
         }
 
-        /* Mobile: single column, text top, car bottom */
+        /* Mobile: single column, CAR TOP, TEXT BOTTOM, FOOTER (TRUST BAR) AT BOTTOM */
         @media (max-width: 767px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
             min-height: unset !important;
           }
 
+          .hero-right {
+            order: 1 !important;
+            border-left: none !important;
+            border-bottom: 1px solid #f0ebe0 !important;
+            min-height: 260px !important;
+            padding: 2.5rem 1rem 1.5rem !important;
+          }
+
           .hero-left {
-            order: 1;
-            padding: 3rem 1.5rem 2rem !important;
+            order: 2 !important;
+            padding: 2.5rem 1.5rem 2.5rem !important;
             text-align: center !important;
             align-items: center !important;
+          }
+
+          .hero-left .hero-title {
+            text-align: center !important;
           }
 
           .hero-left .hero-body {
             margin-left: auto !important;
             margin-right: auto !important;
+            text-align: center !important;
           }
 
           .hero-left .hero-buttons {
             justify-content: center !important;
+            margin-bottom: 2.5rem !important;
           }
 
           .hero-left .hero-trust-bar {
             justify-content: center !important;
             flex-wrap: wrap !important;
             gap: 0.75rem !important;
+            width: 100% !important;
+            text-align: center !important;
           }
 
           .hero-trust-divider {
             display: none !important;
           }
 
-          .hero-right {
-            order: 2;
-            border-left: none !important;
-            border-top: 1px solid #f0ebe0 !important;
-            min-height: 320px !important;
-            padding: 2rem 1rem !important;
-          }
-
           .hero-title {
             font-size: clamp(2.5rem, 9vw, 3.75rem) !important;
+            text-align: center !important;
           }
 
           .blueprint-wrap {
-            min-height: 300px !important;
+            min-height: 220px !important;
+            padding: 0.5rem 1rem !important;
           }
 
           .blueprint-wrap > svg {
             max-width: 100% !important;
+          }
+
+          .hero-decorative-line {
+            display: none !important;
           }
         }
 
@@ -396,11 +410,39 @@
         /* ─── HOW TO RENT MOBILE ─── */
         @media (max-width: 767px) {
           .steps-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            gap: 2.5rem !important;
           }
           .steps-connector { display: none !important; }
-          .step-item { text-align: left !important; }
+          .step-item {
+            width: 100% !important;
+            max-width: 320px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 0 1rem !important;
+          }
+          .step-item h3 {
+            width: 100% !important;
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          .step-item p {
+            width: 100% !important;
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            max-width: 280px !important;
+          }
         }
 
         /* ─── TIKTOK SECTION MOBILE ─── */
@@ -703,7 +745,7 @@
     ">
 
       <!-- Gold horizontal rule — decorative line across full width at 68% height -->
-      <div style="
+      <div class="hero-decorative-line" style="
         position: absolute;
         top: 68%;
         left: 0;
@@ -1528,65 +1570,65 @@
     <section id="cara-sewa" class="bg-charcoal-wash section-pad">
         <div class="section-container">
             {{-- Header --}}
-            <div class="text-center mb-16">
-                <span class="eyebrow">Simple Process</span>
-                <div class="gold-rule mx-auto" style="margin-bottom: 1.25rem;"></div>
-                <h2 class="font-display text-charcoal" style="font-size: var(--text-2xl); font-weight: 500; line-height: 1.2; margin: 0;">How to Rent</h2>
+            <div class="text-center mb-12 sm:mb-16 flex flex-col items-center justify-center">
+                <span class="eyebrow text-center mx-auto" style="text-align: center; margin-left: auto; margin-right: auto;">Simple Process</span>
+                <div class="gold-rule mx-auto" style="margin-bottom: 1.25rem; margin-left: auto; margin-right: auto;"></div>
+                <h2 class="font-display text-charcoal text-center mx-auto" style="font-size: var(--text-2xl); font-weight: 500; line-height: 1.2; margin: 0; text-align: center;">How to Rent</h2>
             </div>
 
             {{-- Timeline --}}
-            <div class="steps-grid flex flex-col md:flex-row items-start md:items-start gap-6 md:gap-0">
+            <div class="steps-grid flex flex-col md:flex-row items-center md:items-start justify-center gap-8 md:gap-0">
                 {{-- Step 1 --}}
-                <div class="step-item flex-1 flex flex-col items-center text-center px-2">
-                    <div class="flex items-center justify-center rounded-full bg-white border-gold" style="width: 48px; height: 48px; border: 1.5px solid #bda04e;">
+                <div class="step-item flex-1 flex flex-col items-center justify-center text-center px-4 w-full">
+                    <div class="flex items-center justify-center rounded-full bg-white border-gold mx-auto" style="width: 48px; height: 48px; border: 1.5px solid #bda04e; margin-left: auto; margin-right: auto;">
                         <span class="font-tight font-semibold text-gold" style="font-size: 16px;">1</span>
                     </div>
-                    <h3 class="font-tight text-charcoal mt-4" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0;">Choose Your Car</h3>
-                    <p class="font-sans text-charcoal-light mt-2" style="font-size: 13px; line-height: 1.7; max-width: 220px;">
+                    <h3 class="font-tight text-charcoal mt-4 text-center mx-auto" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0; text-align: center; width: 100%;">Choose Your Car</h3>
+                    <p class="font-sans text-charcoal-light mt-2 text-center mx-auto" style="font-size: 13px; line-height: 1.7; max-width: 260px; text-align: center; margin-left: auto; margin-right: auto;">
                         Browse our fleet and select the vehicle that fits your needs and budget.
                     </p>
                 </div>
                 <div class="steps-connector timeline-connector hidden md:block"></div>
 
                 {{-- Step 2 --}}
-                <div class="step-item flex-1 flex flex-col items-center text-center px-2">
-                    <div class="flex items-center justify-center rounded-full bg-white border-gold" style="width: 48px; height: 48px; border: 1.5px solid #bda04e;">
+                <div class="step-item flex-1 flex flex-col items-center justify-center text-center px-4 w-full">
+                    <div class="flex items-center justify-center rounded-full bg-white border-gold mx-auto" style="width: 48px; height: 48px; border: 1.5px solid #bda04e; margin-left: auto; margin-right: auto;">
                         <span class="font-tight font-semibold text-gold" style="font-size: 16px;">2</span>
                     </div>
-                    <h3 class="font-tight text-charcoal mt-4" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0;">Fill in Details</h3>
-                    <p class="font-sans text-charcoal-light mt-2" style="font-size: 13px; line-height: 1.7; max-width: 220px;">
+                    <h3 class="font-tight text-charcoal mt-4 text-center mx-auto" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0; text-align: center; width: 100%;">Fill in Details</h3>
+                    <p class="font-sans text-charcoal-light mt-2 text-center mx-auto" style="font-size: 13px; line-height: 1.7; max-width: 260px; text-align: center; margin-left: auto; margin-right: auto;">
                         Enter your name, phone number, rental dates, pickup and return times, and location.
                     </p>
                 </div>
                 <div class="steps-connector timeline-connector hidden md:block"></div>
 
                 {{-- Step 3 --}}
-                <div class="step-item flex-1 flex flex-col items-center text-center px-2">
-                    <div class="flex items-center justify-center rounded-full bg-white border-gold" style="width: 48px; height: 48px; border: 1.5px solid #bda04e;">
+                <div class="step-item flex-1 flex flex-col items-center justify-center text-center px-4 w-full">
+                    <div class="flex items-center justify-center rounded-full bg-white border-gold mx-auto" style="width: 48px; height: 48px; border: 1.5px solid #bda04e; margin-left: auto; margin-right: auto;">
                         <span class="font-tight font-semibold text-gold" style="font-size: 16px;">3</span>
                     </div>
-                    <h3 class="font-tight text-charcoal mt-4" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0;">Send to WhatsApp</h3>
-                    <p class="font-sans text-charcoal-light mt-2" style="font-size: 13px; line-height: 1.7; max-width: 220px;">
+                    <h3 class="font-tight text-charcoal mt-4 text-center mx-auto" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0; text-align: center; width: 100%;">Send to WhatsApp</h3>
+                    <p class="font-sans text-charcoal-light mt-2 text-center mx-auto" style="font-size: 13px; line-height: 1.7; max-width: 260px; text-align: center; margin-left: auto; margin-right: auto;">
                         The system generates a complete booking message and opens it directly in WhatsApp.
                     </p>
                 </div>
                 <div class="steps-connector timeline-connector hidden md:block"></div>
 
                 {{-- Step 4 --}}
-                <div class="step-item flex-1 flex flex-col items-center text-center px-2">
-                    <div class="flex items-center justify-center rounded-full bg-white border-gold" style="width: 48px; height: 48px; border: 1.5px solid #bda04e;">
+                <div class="step-item flex-1 flex flex-col items-center justify-center text-center px-4 w-full">
+                    <div class="flex items-center justify-center rounded-full bg-white border-gold mx-auto" style="width: 48px; height: 48px; border: 1.5px solid #bda04e; margin-left: auto; margin-right: auto;">
                         <span class="font-tight font-semibold text-gold" style="font-size: 16px;">4</span>
                     </div>
-                    <h3 class="font-tight text-charcoal mt-4" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0;">Confirm Booking</h3>
-                    <p class="font-sans text-charcoal-light mt-2" style="font-size: 13px; line-height: 1.7; max-width: 220px;">
+                    <h3 class="font-tight text-charcoal mt-4 text-center mx-auto" style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0; text-align: center; width: 100%;">Confirm Booking</h3>
+                    <p class="font-sans text-charcoal-light mt-2 text-center mx-auto" style="font-size: 13px; line-height: 1.7; max-width: 260px; text-align: center; margin-left: auto; margin-right: auto;">
                         We will review and confirm your booking via WhatsApp shortly after.
                     </p>
                 </div>
             </div>
 
             {{-- CTA --}}
-            <div class="text-center mt-12">
-                <a href="https://wa.me/601168247599?text=Hi%20NikaFleet!%20I%20would%20like%20to%20rent%20a%20car." target="_blank" rel="noopener" class="btn-primary" style="padding: 16px 40px;">Book a Car Now</a>
+            <div class="text-center mt-12 flex justify-center">
+                <a href="https://wa.me/601168247599?text=Hi%20NikaFleet!%20I%20would%20like%20to%20rent%20a%20car." target="_blank" rel="noopener" class="btn-primary inline-block text-center mx-auto" style="padding: 16px 40px;">Book a Car Now</a>
             </div>
         </div>
     </section>

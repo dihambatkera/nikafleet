@@ -336,16 +336,32 @@
 
                 <!-- Drag-and-drop file uploader area -->
                 <div class="flex justify-center items-center w-full">
-                    <label class="flex flex-col justify-center items-center w-full h-44 bg-gray-50 hover:bg-gray-100/70 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer transition-all hover:border-blue-500 group">
-                        <div class="flex flex-col justify-center items-center pt-5 pb-6">
+                    <label for="vehicle-images-input"
+                           id="vehicle-images-dropzone"
+                           onclick="document.getElementById('vehicle-images-input').click()"
+                           class="flex flex-col justify-center items-center w-full h-48 bg-gray-50 hover:bg-gray-100/80 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer transition-all hover:border-blue-500 group relative select-none">
+                        <div class="flex flex-col justify-center items-center pt-5 pb-4 pointer-events-none text-center px-4">
                             <!-- Cloud upload icon -->
-                            <svg class="w-10 h-10 mb-3 text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                            </svg>
-                            <p class="mb-2 text-sm text-gray-500"><span class="font-bold text-blue-600">Click to upload</span> or drag files here</p>
+                            <div class="w-12 h-12 mb-3 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                </svg>
+                            </div>
+                            <p class="mb-1 text-sm text-gray-700 font-semibold"><span class="text-blue-600 font-bold">Click to upload</span> or drag files here</p>
                             <p class="text-xs text-gray-400">JPG, PNG, WEBP only (Max 10MB per file)</p>
                         </div>
-                        <input type="file" wire:model="newImages" class="hidden" multiple accept="image/jpeg,image/png,image/webp,image/jpg" />
+                        <button type="button" 
+                                onclick="event.stopPropagation(); document.getElementById('vehicle-images-input').click();"
+                                class="mb-3 px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all cursor-pointer">
+                            Browse Images
+                        </button>
+                        <input type="file" 
+                               id="vehicle-images-input" 
+                               wire:model="newImages" 
+                               name="images[]"
+                               class="hidden" 
+                               multiple 
+                               accept="image/jpeg,image/png,image/webp,image/jpg" />
                     </label>
                 </div>
 
@@ -381,7 +397,7 @@
                                         
                                         <!-- Primary Image Badge -->
                                         @if(!empty($img['is_primary']))
-                                            <span class="absolute top-2 left-2 px-2 py-0.5 bg-yellow-400 text-yellow-950 font-bold text-[9px] uppercase tracking-wider rounded-md shadow flex items-center gap-1">
+                                            <span class="absolute top-2 left-2 px-2 py-0.5 bg-yellow-400 text-yellow-950 font-bold text-[9px] uppercase tracking-wider rounded-md shadow flex items-center gap-1 z-10">
                                                 <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
                                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                                 </svg>
@@ -390,12 +406,12 @@
                                         @endif
 
                                         <!-- Actions Overlay on Hover -->
-                                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 z-20">
                                             
                                             <!-- Star Icon (Set Primary) -->
                                             <button type="button" 
-                                                    wire:click="setPrimaryImage('{{ $img['id'] }}')"
-                                                    class="p-1.5 bg-white/95 hover:bg-white text-yellow-500 rounded-lg shadow transition-all hover:scale-110"
+                                                    wire:click.prevent="setPrimaryImage('{{ $img['id'] }}')"
+                                                    class="p-2 bg-white hover:bg-yellow-50 text-yellow-500 rounded-lg shadow-md transition-all hover:scale-110 cursor-pointer"
                                                     title="Set as Primary">
                                                 <svg class="w-4 h-4 {{ !empty($img['is_primary']) ? 'fill-current' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.837-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -404,8 +420,8 @@
 
                                             <!-- Delete Button -->
                                             <button type="button" 
-                                                    wire:click="deleteImage('{{ $img['id'] }}')"
-                                                    class="p-1.5 bg-white/95 hover:bg-white text-red-600 rounded-lg shadow transition-all hover:scale-110"
+                                                    wire:click.prevent="deleteImage('{{ $img['id'] }}')"
+                                                    class="p-2 bg-white hover:bg-red-50 text-red-600 rounded-lg shadow-md transition-all hover:scale-110 cursor-pointer"
                                                     title="Delete Image">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -415,10 +431,10 @@
                                     </div>
 
                                     <!-- Reordering Controls -->
-                                    <div class="flex items-center justify-between p-2 border-t border-gray-150 bg-white">
+                                    <div class="flex items-center justify-between p-2 border-t border-gray-150 bg-white relative z-10">
                                         <button type="button" 
-                                                wire:click="moveImage({{ $index }}, -1)"
-                                                class="p-1 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded transition-all disabled:opacity-20"
+                                                wire:click.prevent="moveImage({{ $index }}, -1)"
+                                                class="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded transition-all disabled:opacity-20 cursor-pointer"
                                                 @if($index === 0) disabled @endif
                                                 title="Move Left">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -427,8 +443,8 @@
                                         </button>
                                         <span class="text-[10px] font-semibold text-gray-400">#{{ $index + 1 }}</span>
                                         <button type="button" 
-                                                wire:click="moveImage({{ $index }}, 1)"
-                                                class="p-1 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded transition-all disabled:opacity-20"
+                                                wire:click.prevent="moveImage({{ $index }}, 1)"
+                                                class="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded transition-all disabled:opacity-20 cursor-pointer"
                                                 @if($index === count($imagesList) - 1) disabled @endif
                                                 title="Move Right">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -482,9 +498,9 @@
                         </div>
 
                         <button type="button" 
-                                wire:click="addBlock"
-                                class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md">
-                            Add
+                                wire:click.prevent="addBlock"
+                                class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md cursor-pointer flex-shrink-0">
+                            Add Block
                         </button>
                     </div>
                 </div>
@@ -507,7 +523,7 @@
                                 @forelse($blocksList as $block)
                                     <tr class="hover:bg-gray-50/50 transition-colors" wire:key="block-row-{{ $block['id'] }}">
                                         <td class="p-3 text-sm text-gray-800 font-semibold">
-                                            {{ \Carbon\Carbon::parse($block['blocked_from'])->format('d/m/Y') }}
+                                             {{ \Carbon\Carbon::parse($block['blocked_from'])->format('d/m/Y') }}
                                         </td>
                                         <td class="p-3 text-sm text-gray-800 font-semibold">
                                             {{ \Carbon\Carbon::parse($block['blocked_until'])->format('d/m/Y') }}
@@ -520,10 +536,10 @@
                                         </td>
                                         <td class="p-3 text-right">
                                             <button type="button" 
-                                                    wire:click="deleteBlock('{{ $block['id'] }}')"
-                                                    class="p-1 hover:bg-red-50 text-gray-400 hover:text-red-600 rounded transition-all"
+                                                    wire:click.prevent="deleteBlock('{{ $block['id'] }}')"
+                                                    class="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-600 rounded-lg transition-all cursor-pointer inline-flex items-center justify-center"
                                                     title="Delete Block">
-                                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                 </svg>
                                             </button>
