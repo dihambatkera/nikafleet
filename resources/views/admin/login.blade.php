@@ -88,7 +88,7 @@
         }
 
         .logo-img {
-            height: 72px;
+            height: 120px;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 4px 12px rgba(184,135,15,0.25));
@@ -357,7 +357,7 @@
 
         @media (max-width: 480px) {
             .login-card { padding: 2rem 1.25rem; border-radius: 16px; }
-            .logo-img { height: 58px; }
+            .logo-img { height: 90px; }
         }
 
         @media (max-width: 360px) {
